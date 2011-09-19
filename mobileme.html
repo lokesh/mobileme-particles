@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/reset.css">
+	<style type="text/css" media="screen">
+		body {
+			background-image: -moz-linear-gradient(top, #040524, #0057a6 50%, #27586d);
+			background-image: -webkit-gradient(linear, center top, center bottom, from( #040c3f), color-stop(35%, #07368b), color-stop(55%, #0057a6), color-stop(75%, #0099d2), to( #0086bd)); 
+			background-image: linear-gradient(top, #040524, #0057a6 50%, #27586d);
+			overflow: hidden;
+		}
+
+	</style>
+
+</head>
+<body>
+
+
+	<script src="js/libs/jquery-1.5.1.min.js"></script>
+	<script src="js/libs/modernizr-1.7.min.js"></script>
+	<script src="js/mm_particle.js"></script>
+
+	<script> 
+
+
+		// screen size variables
+		var SCREEN_WIDTH = window.innerWidth,
+				SCREEN_HEIGHT = window.innerHeight,
+				HALF_WIDTH = window.innerWidth / 2,
+			  HALF_HEIGHT = window.innerHeight / 2;
+
+		// canvas element and 2D context
+		  	canvas = document.createElement( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				container = document.createElement( 'div' );
+
+	  // fiziks
+		var TO_RADIANS = Math.PI/180,
+				TO_DEGREES = 180/Math.PI;
+
+		// Interaction
+		var mouseX = HALF_WIDTH,
+				mouseY = HALF_HEIGHT,
+				mouseDown = false;
+
+		// particles
+		var particles = [],
+				particleImage = new Image(),
+				NEW_PARTICLE_RATE = 1,
+				MAX_PARTICLES = 300;
+
+
+				particleImage.src = 'img/mm_particle.png'
+
+	
+		/*
+		*	Create canvas html and particle objects
+		*/
+		function init() {
+
+			// Canvas html setup
+			document.body.appendChild(container);
+			container.appendChild(canvas); 
+			canvas.width = SCREEN_WIDTH; 
+			canvas.height = SCREEN_HEIGHT;
+
+			// Set main loop to run at 33 fps
+			setInterval(loop, 1000 / 30);
+		
+			// Setup interaction
+			initMouseListeners(); 
+		
+		}
+
+
+
+		function loop() {	
+
+			// make some particles
+			if(mouseDown){
+				makeParticle(NEW_PARTICLE_RATE * 5); 
+			} else{
+				makeParticle(NEW_PARTICLE_RATE); 
+			}
+
+			// clear the canvas
+			context.clearRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		  	// iteratate through each particle
+			for (i=0; i<particles.length; i++) {
+				var particle = particles[i]; 
+
+				// render it
+				particle.render(context); 
+
+				// and then update. We always render first so particle
+				// appears in the starting point.
+				particle.update();
+
+			}
+
+			// Keep taking the oldest particles away until we have 
+			// fewer than the maximum allowed. 
+			while(particles.length>MAX_PARTICLES){
+				particles.shift();
+			}
+		}
+
+	
+	
+		function makeParticle(particleCount) {
+
+			for(var i=0; i<particleCount;i++) {
+
+					// create a new particle in the middle of the stage
+					var particle = new ImageParticle(particleImage, HALF_WIDTH, HALF_HEIGHT); 
+
+					//var particle = new ImageParticle(particleImage, mouseX, mouseY); 
+
+					// give it a random x and y velocity
+					particle.velX = randomRange(-2,2);
+					particle.velY = randomRange(-1.25,1.25);
+					particle.size = randomRange(.01,.7);
+					particle.gravity = 0; 
+					particle.drag = 0.999;
+					particle.shrink = 0.99; 
+					particle.alpha = 0.7; 
+					particle.fade = 0.001; 
+					// sets the blend mode so particles are drawn with an additive blend
+					particle.compositeOperation = 'lighter';
+
+					// add it to the array
+					particles.push(particle);
+
+			}
+		}
+
+
+		
+		function initMouseListeners() {
+			document.addEventListener('mousemove', onMouseMove, false);
+			document.addEventListener( 'mousedown', onMouseDown, false );
+			document.addEventListener( 'mouseup', onMouseUp, false );
+		}
+
+		function onMouseMove( event ) {
+			event.preventDefault();
+			mouseX = event.clientX;
+			mouseY = event.clientY;
+		}
+	
+		function onMouseDown(event) {
+			mouseDown = true; 
+		}
+		function onMouseUp(event) {
+			mouseDown = false; 
+		}
+
+
+	 	$(document).ready(function(){
+
+			init();
+
+   });
+	
+	</script> 
+
+	
+</body>
+</html>
