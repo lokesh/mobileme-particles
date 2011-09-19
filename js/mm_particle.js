@@ -16,7 +16,7 @@ function ImageParticle(img, posx, posy) {
 	
 	// if maxSize is a positive value, limit the size of 
 	// the particle (this is for growing particles).
-	this.maxSize = -1;
+	this.maxSize = 2;
 	
 	// multiply the velocity by this every frame to create
 	// drag. A number between 0 and 1, closer to one is 
@@ -52,6 +52,54 @@ function ImageParticle(img, posx, posy) {
 		this.posX += this.velX;
 		this.posY += this.velY; 
 		
+		// Mouse attraction
+		var mouseDistance = distanceBetween(this.posX, this.posY, mouseX, mouseY);
+		if(mouseDistance < 10){
+			this.posX += (this.posX - mouseX) / 10;
+			this.posY += (this.posY - mouseY) / 10;				
+		} else if(mouseDistance < 40){
+			this.posX -= (this.posX - mouseX) / 20;
+			this.posY -= (this.posY - mouseY) / 20;				
+		} else if(mouseDistance < 75){
+			this.posX -= (this.posX - mouseX) / 200;
+			this.posY -= (this.posY - mouseY) / 200;				
+		} else if(mouseDistance < 200){
+			this.posX -= (this.posX - mouseX) / 500;
+			this.posY -= (this.posY - mouseY) / 500;				
+		}
+
+		// Left attractor
+		var leftAttractorX = 100,
+			leftAttractorY = HALF_HEIGHT,
+			leftAttractorDistance = distanceBetween(this.posX, this.posY, leftAttractorX, leftAttractorY);
+
+		if(leftAttractorDistance < 50){
+			this.posX -= (this.posX - leftAttractorX) / 20;
+			this.posY -= (this.posY - leftAttractorY) / 20;				
+		} else if(leftAttractorDistance < 200){
+			this.posX -= (this.posX - leftAttractorX) / 200;
+			this.posY -= (this.posY - leftAttractorY) / 200;				
+		} else if(leftAttractorDistance < HALF_WIDTH){
+			this.posX -= (this.posX - leftAttractorX) / 500;
+			this.posY -= (this.posY - leftAttractorY) / 500;				
+		}
+		
+		// Right attractor
+		var rightAttractorX = SCREEN_WIDTH - 100,
+			rightAttractorY = HALF_HEIGHT,
+			rightAttractorDistance = distanceBetween(this.posX, this.posY, rightAttractorX, rightAttractorY);
+
+		if(rightAttractorDistance < 50){
+			this.posX -= (this.posX - rightAttractorX) / 20;
+			this.posY -= (this.posY - rightAttractorY) / 20;				
+		} else if(rightAttractorDistance < 200){
+			this.posX -= (this.posX - rightAttractorX) / 200;
+			this.posY -= (this.posY - rightAttractorY) / 200;				
+		} else if(rightAttractorDistance < HALF_WIDTH){
+			this.posX -= (this.posX - rightAttractorX) / 500;
+			this.posY -= (this.posY - rightAttractorY) / 500;				
+		}		
+
 		// shrink the particle
 		this.size *= this.shrink;
 		// if maxSize is set and we're bigger, resize!
@@ -103,4 +151,10 @@ function ImageParticle(img, posx, posy) {
 
 function randomRange(min, max) {
 	return ((Math.random()*(max-min)) + min); 
+}
+
+function distanceBetween(x1, y1, x2, y2) {
+	var dx = x1-x2;
+	var dy = y1-y2;
+	return Math.sqrt(dx*dx + dy*dy);
 }

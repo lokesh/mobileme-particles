@@ -47,8 +47,8 @@
 				TO_DEGREES = 180/Math.PI;
 
 		// Interaction
-		var mouseX = HALF_WIDTH,
-				mouseY = HALF_HEIGHT,
+		var mouseX = 0,
+				mouseY = 0,
 				mouseDown = false;
 
 		// particles
@@ -123,16 +123,14 @@
 					// create a new particle in the middle of the stage
 					var particle = new ImageParticle(particleImage, HALF_WIDTH, HALF_HEIGHT); 
 
-					//var particle = new ImageParticle(particleImage, mouseX, mouseY); 
-
 					// give it a random x and y velocity
-					particle.velX = randomRange(-2,2);
+					particle.velX = randomRange(-1.75,1.75);
 					particle.velY = randomRange(-1.25,1.25);
-					particle.size = randomRange(.01,.7);
+					particle.size = randomRange(.01,1.1);
 					particle.gravity = 0; 
 					particle.drag = 0.999;
 					particle.shrink = 0.99; 
-					particle.alpha = 0.7; 
+					particle.alpha = .7; 
 					particle.fade = 0.001; 
 					// sets the blend mode so particles are drawn with an additive blend
 					particle.compositeOperation = 'lighter';
