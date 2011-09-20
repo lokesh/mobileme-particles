@@ -31,8 +31,9 @@ body {
 	font-size: 16px;
 	line-height: 1.625em;
 }
-#loading small{
+#loading .browsers{
 	font-size: 12px;
+	display: none;
 }
 #hd{
 	position: absolute;

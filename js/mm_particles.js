@@ -11,8 +11,10 @@
 var SHOW_FORCES = false,
 	SHOW_STATS = false;
 
+var SLOW_BROWSER = ($.browser.mozilla || $.browser.msie)? true: false;
+
 // screen size variables
- 	SCREEN_WIDTH = window.innerWidth,
+var	SCREEN_WIDTH = window.innerWidth,
 	SCREEN_HEIGHT = window.innerHeight,
 	HALF_WIDTH = window.innerWidth / 2,
 	HALF_HEIGHT = window.innerHeight / 2;
@@ -193,8 +195,10 @@ function makeParticle(particleCount) {
 			particle.gravity = 0; 
 			particle.drag = 0.999;
 			particle.shrink = 0.99; 
+ 			
 			particle.alpha = .7; 
 			particle.fade = 0.0015; 
+			
 			// sets the blend mode so particles are drawn with an additive blend
 			particle.compositeOperation = 'lighter';
 
@@ -234,5 +238,9 @@ function toggleforceSet(){
 $(document).ready(function(){
 
 	init();
+ 	if(SLOW_BROWSER){
+		$('.browsers').show();
+	}
 	$('#loading').fadeOut(5000);
+	
 });
