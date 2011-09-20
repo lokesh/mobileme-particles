@@ -115,14 +115,15 @@ function Particle(posx, posy, img) {
 		c.translate(this.posX, this.posY);
 
 		// scale it dependent on the size of the particle
-		var s = this.shimmer ? this.size * randomRange(.5,1) : this.size; //this.shimmer ? this.size * 0 : this.size; 
-		c.scale(s,s);
+		c.scale(this.size, this.size);
 
 		// move the draw position to the center of the image
 		c.translate(img.width*-0.5, img.width*-0.5);
 		
 		// set the alpha to the particle's alpha
-		c.globalAlpha = this.alpha; 
+	 	if(!$.browser.mozilla && !$.browser.msie){
+			c.globalAlpha = this.alpha; 
+		}
 		
 		// set the composition mode
 		c.globalCompositeOperation = this.compositeOperation;

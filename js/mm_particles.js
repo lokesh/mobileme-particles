@@ -38,7 +38,7 @@ var particles = [],
 		NEW_PARTICLE_RATE = 1,
 		MAX_PARTICLES = 1000;
 
-particleImage.src = 'img/mm_particle2.png'
+particleImage.src = 'img/mm_particle.png'
 
 // forces
 var forces = [],
@@ -53,7 +53,7 @@ var forces = [],
 // reversed and then the next forceset is loaded.
 forceSets.push([  new Force(HALF_WIDTH, HALF_HEIGHT, 150),
 									new Force(SCREEN_WIDTH/5, HALF_HEIGHT, 0),
-								  new Force(SCREEN_WIDTH - SCREEN_WIDTH/5, HALF_HEIGHT/3, 0)]);
+								  new Force(SCREEN_WIDTH - SCREEN_WIDTH/5, HALF_HEIGHT/2, 0)]);
 
 forceSets.push([  new Force(HALF_WIDTH, HALF_HEIGHT, 150),
 									new Force(SCREEN_WIDTH/5, HALF_HEIGHT - HALF_HEIGHT/3, 0),
@@ -67,6 +67,7 @@ function init() {
 	// Canvas html setup
 	document.body.appendChild(container);
 	container.appendChild(canvas); 
+	$(canvas).attr('id','particleCanvas');
 	canvas.width = SCREEN_WIDTH; 
 	canvas.height = SCREEN_HEIGHT;
 
