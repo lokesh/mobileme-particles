@@ -1,0 +1,5 @@
+# MobileMe-like Particles
+
+A javascript particle system using canvas in an attempt to recreate the magical, wispy particles found on the [MobileMe login page](https://auth.me.com/authenticate?service=mail). 
+
+A lot of the core particle system code was written by [Seb Lee-Delisle](http://sebleedelisle.com).
